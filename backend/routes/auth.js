@@ -4,10 +4,10 @@ const User = require("../models/User"); //import user model
 const { body, validationResult } = require("express-validator");
 const { findOne } = require("../models/User");
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'PrinceI$AG00dB0y';
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = "PrinceI$AG00dB0y";
 
-//create a user using: POST "/api/auth/createuser". No login required
+//Route 1:Create a user using: POST "/api/auth/createuser". No login required
 router.post(
   "/createuser",
   [
@@ -37,22 +37,70 @@ router.post(
         password: SecurePass,
         email: req.body.email,
       });
-      const data={
-        user:{
-          id:user.id
-        }
-      }
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
       const JwtToken = jwt.sign(data, JWT_SECRET);
       console.log(JwtToken);
       // res.json(user);
-      res.json({JwtToken});
+      res.json({ JwtToken });
     } catch (error) {
       //if  any error occurs than this catch will run
       console.log(error.message);
-      return res.status(500).send("Some error occured");
+      return res.status(500).send("Server Internal Error");
     }
   }
 );
+
+//Route 2:Create a user using: POST "/api/auth/login". No login required
+router.post(
+  "/login",
+  [
+    body("email", "Enter a Valid Email").isEmail(),
+    body("password", "Password cannot be black").exists(),
+  ],
+  async (req, res) => {
+    //if error is an error return Bad request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { email, password } = req.body;
+    try {
+      let user = await User.findOne({ email });
+      if (!user) {  //if user not exists
+        return res.status(400).send({
+          error: "Please Enter Valid Credentials to Login",
+        });
+      } else { //if user exists
+        const checkPassword = await bcrypt.compare(password, user.password);
+        if (!checkPassword) {
+          return res.status(400).send({
+            error: "Please Enter Valid Credentials to Login",
+          });
+        }
+        const data = {
+          user: {
+            id: user.id,
+          },
+        };
+        const JwtToken = jwt.sign(data, JWT_SECRET);
+        console.log(JwtToken);
+        // res.json(user);
+        return res.json({ JwtToken });
+      }
+    } catch (error) {
+      //if  any error occurs than this catch will run
+      console.log(error.message);
+      return res.status(500).send("Server Internal Error");
+    }
+  }
+);
+
+//Route 2:Get Loggedin user Details using: POST "/api/auth/getuser". login required
+
 
 module.exports = router;
 
