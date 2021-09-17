@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User"); //import user model
 const { body, validationResult } = require("express-validator");
 const { findOne } = require("../models/User");
+const fetchUser = require("../middleware/fetchUser");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = "PrinceI$AG00dB0y";
@@ -70,11 +71,13 @@ router.post(
     const { email, password } = req.body;
     try {
       let user = await User.findOne({ email });
-      if (!user) {  //if user not exists
+      if (!user) {
+        //if user not exists
         return res.status(400).send({
           error: "Please Enter Valid Credentials to Login",
         });
-      } else { //if user exists
+      } else {
+        //if user exists
         const checkPassword = await bcrypt.compare(password, user.password);
         if (!checkPassword) {
           return res.status(400).send({
@@ -99,8 +102,18 @@ router.post(
   }
 );
 
-//Route 2:Get Loggedin user Details using: POST "/api/auth/getuser". login required
-
+//Route 3:Get Loggedin user Details using: POST "/api/auth/getuser". login required
+router.post("/getuser", fetchUser, async (req, res) => {
+  try {
+    let userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    return res.send(user)
+  } catch (error) {
+    //if  any error occurs than this catch will run
+    console.log(error.message);
+    return res.status(500).send("Server Internal Error");
+  }
+});
 
 module.exports = router;
 
