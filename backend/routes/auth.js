@@ -4,6 +4,8 @@ const User = require("../models/User"); //import user model
 const { body, validationResult } = require("express-validator");
 const { findOne } = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'PrinceI$AG00dB0y';
 
 //create a user using: POST "/api/auth/createuser". No login required
 router.post(
@@ -29,13 +31,21 @@ router.post(
         });
       }
       const salt = await bcrypt.genSalt(10);
-      const pass = await bcrypt.hash(req.body.password, salt);
+      const SecurePass = await bcrypt.hash(req.body.password, salt);
       user = await User.create({
         name: req.body.name,
-        password: pass,
+        password: SecurePass,
         email: req.body.email,
       });
-      res.json(user);
+      const data={
+        user:{
+          id:user.id
+        }
+      }
+      const JwtToken = jwt.sign(data, JWT_SECRET);
+      console.log(JwtToken);
+      // res.json(user);
+      res.json({JwtToken});
     } catch (error) {
       //if  any error occurs than this catch will run
       console.log(error.message);
@@ -45,3 +55,5 @@ router.post(
 );
 
 module.exports = router;
+
+// npm run nodemon
