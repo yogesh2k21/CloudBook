@@ -4,7 +4,7 @@ const Notes = require("../models/Notes"); //import user model
 const fetchUser = require("../middleware/fetchUser");
 const { body, validationResult } = require("express-validator");
 
-//Route 1:Get all the Notes using: GET "/api/auth/fetchallnotes". login required
+//Route 1:Get all the Notes using: GET "/api/notes/fetchallnotes". login required
 router.get("/fetchallnotes", fetchUser, [], async (req, res) => {
   try {
     const notes = await Notes.find({ user: req.user.id });
@@ -16,7 +16,7 @@ router.get("/fetchallnotes", fetchUser, [], async (req, res) => {
   }
 });
 
-//Route 2:Add Note using: POST "/api/auth/addnote". login required
+//Route 2:Add Note using: POST "/api/notes/addnote". login required
 router.post(
   "/addnote",
   fetchUser,
@@ -49,5 +49,36 @@ router.post(
     }
   }
 );
+
+//Route 3:Update Note using: POST "/api/notes/updatenote". login required
+router.put("/updatenote/:id", fetchUser, async (req, res) => {
+  try {
+    const { title, description, tag } = req.body;
+
+    const newNote = {};
+    if (title) {
+      newNote.title = title;
+    }
+    if (description) {
+      newNote.description = description;
+    }
+    if (tag) {
+      newNote.tag = tag;
+    }
+    let originalNote = await Notes.findById(req.params.id);
+    if (!originalNote) {
+      return res.send("Not Found").status(404);
+    }
+    if(originalNote.user.toString()!==req.user.id){
+      return res.status(401).send("Not Allowed");
+    }
+    originalNote=await Notes.findByIdAndUpdate(req.params.id,{$set:newNote},{new:true})
+    res.json(originalNote);
+  } catch (error) {
+    //if  any error occurs than this catch will run
+    console.log(error.message);
+    return res.status(500).send("Server Internal Error");
+  }
+});
 
 module.exports = router;
