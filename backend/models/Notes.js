@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose; //De-Structuring
 
 const NotesSchema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
   title: {
     type: String,
     required: true,
   },
-  desc: {
+  description: {
     type: String,
     required: true,
   },
   tag: {
-    type: Date,
+    type: String,
     default: "General",
   },
   date: {
@@ -19,4 +24,4 @@ const NotesSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("notes", NotesSchema);
+module.exports = mongoose.model("notes", NotesSchema); //"notes" refers to the name of Collection in mongoDB

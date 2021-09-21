@@ -12,7 +12,7 @@ const fetchUser = (req, res, next) => {
   }
   try {
     const Data = jwt.verify(token, JWT_SECRET);
-    req.user = Data.user;   //data is a object
+    req.user = Data.user;   //Data is a object
   } catch (error) {
     return res
       .status(401)
@@ -22,3 +22,8 @@ const fetchUser = (req, res, next) => {
 };
 
 module.exports = fetchUser;
+
+// fetchuser middleware is used to exact the user details from request header
+// just like in line 7 
+// than get the user details object by passing in verify function
+// than initialize the req.user object by verified object,see line 15
