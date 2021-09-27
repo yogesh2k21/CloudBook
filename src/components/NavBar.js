@@ -4,7 +4,7 @@ import { Link,useLocation } from "react-router-dom";
 export const NavBar = () => {
   let location=useLocation();
   useEffect(() => {
-    console.log(location)
+    // console.log(location)
   }, [location]) 
 return (
 <>

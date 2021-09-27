@@ -1,7 +1,11 @@
-import React from "react";
+import React,{useContext} from "react";
+import noteContext from '../context/notes/NoteContext';
 
 const Noteitem = (props) => {
-  const { note } = props;
+  const context = useContext(noteContext);
+  const {deleteNote}=context;
+  const { note,updateNote } = props;
+
   return (
     <>
       <div className="p-3 lg:w-1/3 md:max-w-1/2 w-full ">
@@ -25,8 +29,8 @@ const Noteitem = (props) => {
           </div>
 
           <div className="flex flex-wrap content-center flex-col">
-          <i className="material-icons my-2">edit</i>
-          <i className="material-icons my-2">delete</i>
+          <i className="material-icons my-2" onClick={()=>{updateNote(note)}}>edit</i>
+          <i className="material-icons my-2" onClick={()=>{return deleteNote(note._id)}}>delete</i>
           </div>
         </div>
       </div>
