@@ -85,20 +85,23 @@ const NoteState = (props) => {
         "auth-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE0NGU2NTg2YzFkZTM4NGM2NmI2NTRmIn0sImlhdCI6MTYzMjIwNDIzNH0.zYBkNjXBU1odzkTTjwhLPgSo7uG0BhhIrlwQ1kYE5-Y",
       },
-      body: JSON.stringify({ id, title, description }),
+      body: JSON.stringify({ id, title, description, tag }),
     });
     const json = response.json();
     console.log(json)
 
+    let NewUpdatedNote=JSON.parse(JSON.stringify(notes))
     //Logic to edit in client
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
+    for (let index = 0; index < NewUpdatedNote.length; index++) {
+      const element = NewUpdatedNote[index];
       if (element._id === id) {
-        element._id = id;
-        element.title = title;
-        element.description = description;
+        NewUpdatedNote[index]._id = id;
+        NewUpdatedNote[index].title = title;
+        NewUpdatedNote[index].description = description;
+        break;
       }
     }
+    setNotes(NewUpdatedNote);
   };
 
   return (
