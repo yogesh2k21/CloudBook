@@ -36,20 +36,12 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
-    console.log(json)
+    const json = await response.json();
+    //console.log(json)
 
     //Logic to adding in client
     console.log("Adding new note");
-    const note = {
-      _id: "614db856ff2887803392bfe7",
-      user: "6144e6586c1de384c66b654f",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2021-09-24T11:36:54.776Z",
-      __v: 0,
-    };
+    const note = json;
     setNotes(notes.concat(note));
   };
 
@@ -65,10 +57,11 @@ const NoteState = (props) => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE0NGU2NTg2YzFkZTM4NGM2NmI2NTRmIn0sImlhdCI6MTYzMjIwNDIzNH0.zYBkNjXBU1odzkTTjwhLPgSo7uG0BhhIrlwQ1kYE5-Y",
       },
     });
+    // eslint-disable-next-line
     const json = response.json();
-    console.log(json)
+    //console.log(json)
 
-    console.log("Deleting" + id);
+    console.log("Deleting " + id);
     const NewNotesAfterDeletion = notes.filter((note) => {
       return note._id !== id;
     });
@@ -87,8 +80,9 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ id, title, description, tag }),
     });
+    // eslint-disable-next-line
     const json = response.json();
-    console.log(json)
+    //console.log(json)
 
     let NewUpdatedNote=JSON.parse(JSON.stringify(notes))
     //Logic to edit in client

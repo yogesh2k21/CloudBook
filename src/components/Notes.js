@@ -13,9 +13,10 @@ const Notes = () => {
   }, []);
 
   const ref = useRef(null); //it is use to open the modal
-  const refClose = useRef(null);  //it is use to close the modal
+  const refClose = useRef(null); //it is use to close the modal
 
-  const updateNote = (currentNote) => { //it populate the clicked note items in the input fields
+  const updateNote = (currentNote) => {
+    //it populate the clicked note items in the input fields
     ref.current.click();
     setNote({
       id: currentNote._id,
@@ -32,7 +33,7 @@ const Notes = () => {
   };
 
   const onchange = (e) => {
-    setNote({ ...note, [e.target.name]: e.target.value });  //it is taking value in input fields
+    setNote({ ...note, [e.target.name]: e.target.value }); //it is taking value in input fields
   };
 
   const [showModal, setShowModal] = React.useState(false);
@@ -40,7 +41,7 @@ const Notes = () => {
   return (
     <>
       <button
-        ref={ref} 
+        ref={ref}
         className="bg-pink-500 hidden text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
@@ -77,6 +78,8 @@ const Notes = () => {
                             Title<span style={{ color: "#ff0000" }}>*</span>
                           </label>
                           <input
+                            placeholder="Minimum 3 characters"
+                            minLength={3}
                             type="text"
                             onChange={onchange}
                             id="etitle"
@@ -126,6 +129,8 @@ const Notes = () => {
                             <span style={{ color: "#ff0000" }}>*</span>
                           </label>
                           <textarea
+                            placeholder="Minimum 3 characters"
+                            minLength={5}
                             id="edescription"
                             onChange={onchange}
                             value={note.edescription}
@@ -142,7 +147,7 @@ const Notes = () => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    ref={refClose} 
+                    ref={refClose}
                     onClick={() => setShowModal(false)}
                   >
                     Close
@@ -150,7 +155,9 @@ const Notes = () => {
                   <button
                     className="bg-emerald-500 text-green-500 text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={handleClick}>
+                    disabled={note.etitle.length<3 || note.edescription.length<5}
+                    onClick={handleClick}
+                  >
                     Save Changes
                   </button>
                 </div>
@@ -164,6 +171,11 @@ const Notes = () => {
       <div className="container px-5 py-5 mx-auto">
         <div className="flex flex-col text-center w-full">
           <div className="flex flex-wrap">
+            <div className="w-full">
+              <marquee behavior="scroll" direction="right">
+                {notes.length === 0 && "No Tasks are Available"}
+              </marquee>
+            </div>
             {notes.map((note) => {
               return (
                 <Noteitem key={note._id} note={note} updateNote={updateNote} />

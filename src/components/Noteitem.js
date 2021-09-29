@@ -16,7 +16,7 @@ const Noteitem = (props) => {
             </p>
             <br />
             <div className="text-left">
-            <p className="text-gray-500 text-xs overflow-ellipsis overflow-hidden">{note.description}</p>
+            <p className="text-gray-500 text-xs overflow-ellipsis overflow-hidden">{note.description.slice(0,110)}...</p>
             </div>
           </div>
 
