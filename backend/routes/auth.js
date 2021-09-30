@@ -17,10 +17,12 @@ router.post(
     body("password", "Enter a Valid password").isLength({ min: 5 }),
   ],
   async (req, res) => {
+    let success = false;
     //if error is an error return Bad request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      success = false
+      return res.status(400).json({ success:success, errors: errors.array() });
     }
     //creating user
     try {
@@ -28,6 +30,7 @@ router.post(
       // console.log(user); //if user exist than it log that user
       if (user) {
         return res.status(400).json({
+          success:success,
           error: "Sorry user with this email address already exists!!",
         });
       }
@@ -46,7 +49,9 @@ router.post(
       const JwtToken = jwt.sign(data, JWT_SECRET);
       console.log(JwtToken);
       // res.json(user);
-      res.json({ JwtToken });
+      success = true
+      // return res.json({ success, JwtToken });  //here we are sending JwtToken for testing
+      return res.json({ success });
     } catch (error) {
       //if  any error occurs than this catch will run
       console.log(error.message);
