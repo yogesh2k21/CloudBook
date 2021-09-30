@@ -63,6 +63,7 @@ router.post(
     body("password", "Password cannot be black").exists(),
   ],
   async (req, res) => {
+    let success = false;
     //if error is an error return Bad request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -72,6 +73,7 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
+        success = false
         //if user not exists
         return res.status(400).send({
           error: "Please Enter Valid Credentials to Login",
@@ -80,6 +82,8 @@ router.post(
         //if user exists
         const checkPassword = await bcrypt.compare(password, user.password);
         if (!checkPassword) {
+          success = false
+          //if user not Password is not correct
           return res.status(400).send({
             error: "Please Enter Valid Credentials to Login",
           });
@@ -90,9 +94,10 @@ router.post(
           },
         };
         const JwtToken = jwt.sign(data, JWT_SECRET);
-        console.log(JwtToken);
-        // res.json(user);
-        return res.json({ JwtToken });
+        // console.log(JwtToken);
+        success = true;
+        // res.json(user);  //it returning the whole object of user included password
+        return res.json({ success,JwtToken });
       }
     } catch (error) {
       //if  any error occurs than this catch will run

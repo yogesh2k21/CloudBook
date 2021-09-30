@@ -45,6 +45,7 @@ return (
                                 <option value="General">General</option>
                                 <option value="Meeting">Meeting</option>
                                 <option value="Lecture">Lecture</option>
+                                <option value="Important">Important</option>
                                 <option value="Call">Call</option>
                                 <option value="Event">Event</option>
                                 <option value="Cleaning">Cleaning</option>

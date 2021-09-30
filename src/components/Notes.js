@@ -111,6 +111,7 @@ const Notes = () => {
                             <option value="General">General</option>
                             <option value="Meeting">Meeting</option>
                             <option value="Lecture">Lecture</option>
+                            <option value="Important">Important</option>
                             <option value="Call">Call</option>
                             <option value="Event">Event</option>
                             <option value="Cleaning">Cleaning</option>
@@ -167,14 +168,12 @@ const Notes = () => {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
-      <p className="text-center text-2xl font-semibold my-5">Your Notes</p>
+      <p className="text-center text-2xl font-semibold my-5">Your Tasks</p>
       <div className="container px-5 py-5 mx-auto">
         <div className="flex flex-col text-center w-full">
           <div className="flex flex-wrap">
             <div className="w-full">
-              <marquee behavior="scroll" direction="right">
                 {notes.length === 0 && "No Tasks are Available"}
-              </marquee>
             </div>
             {notes.map((note) => {
               return (
