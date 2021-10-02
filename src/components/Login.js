@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 
 const Login = (props) => {
+    let history = useHistory();
+    if(localStorage.getItem('token')){
+        history.push("/")
+    }
 const [credentials, setCredentials] = useState({ email: "", password: "" });
-let history = useHistory();
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +27,8 @@ const handleSubmit = async (e) => {
     console.log(json);
     if (json.success) {
     // Save the auth token and redirect to home
-    localStorage.setItem("token", json.authtoken);
+    localStorage.setItem("token", json.JwtToken);
+    // console.log(localStorage.getItem('token'))
     history.push("/");
     props.showAlert("Logged in Successfully","green","M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z")
     } else {

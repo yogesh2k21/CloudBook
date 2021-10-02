@@ -26,7 +26,7 @@ function App() {
   return (
     <NoteState>
       <Router>
-        <NavBar />
+        <NavBar showAlert={showAlert}/>
         <Alert alert={alert}/>
         <Switch>
           <Route exact path="/">
@@ -44,10 +44,6 @@ function App() {
           <Route exact path="/signup">
             <Signup showAlert={showAlert}/>
           </Route>
-
-          {/* <Route exact path="/logout">
-              <About />
-            </Route> */}
         </Switch>
         <Footer />
       </Router>
