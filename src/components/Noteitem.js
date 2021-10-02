@@ -9,7 +9,7 @@ const Noteitem = (props) => {
   const imageFunction=(tag)=>{
     switch(tag) {
       case "General":
-        return "https://img-premium.flaticon.com/png/512/4014/premium/4014943.png?token=exp=1632908702~hmac=510fd3a5795706395237f2ed126dc5a0"
+        return "https://freeiconshop.com/wp-content/uploads/edd/task-done-flat.png"
       case "Meeting":
         return "https://w7.pngwing.com/pngs/687/710/png-transparent-conference-centre-meeting-convention-table-computer-icons-program-development-blue-text-symmetry-thumbnail.png"
       case "Lecture":
@@ -25,7 +25,7 @@ const Noteitem = (props) => {
       case "Groceries":
         return "https://www.buffalocitymission.org/wp-content/uploads/2012/09/groceries.png"
       case "Party":
-        return "https://cdn.icon-icons.com/icons2/1859/PNG/512/partypoppers_117927.png"
+        return "https://www.freeiconspng.com/uploads/party-icon-png-2.png"
     }
   }
 
@@ -49,12 +49,13 @@ const Noteitem = (props) => {
               src={imageFunction(note.tag)}
               alt=""
             />
-            {/* "https://cdn.iconscout.com/icon/free/png-256/meeting-1543488-1305981.png" */}
           </div>
 
           <div className="flex flex-wrap content-center flex-col">
           <i className="material-icons my-2" onClick={()=>{updateNote(note)}}>edit</i>
-          <i className="material-icons my-2" onClick={()=>{return deleteNote(note._id)}}>delete</i>
+          <i className="material-icons my-2" onClick={()=>{
+          deleteNote(note._id);
+          props.showAlert("Deleted Successfully","green","M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z")}}>delete</i>
           </div>
         </div>
       </div>

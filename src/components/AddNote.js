@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import noteContext from "../context/notes/NoteContext";
 
-const AddNote = () => {
+const AddNote = (props) => {
 const context = useContext(noteContext);
 const { addNote } = context;
 const [note, setNote] = useState({ title: "", description: "", tag: "Select tag" });
@@ -10,6 +10,7 @@ const handleClick = (e) => {
     e.preventDefault(); //it prevents the page to be reload
     addNote(note.title, note.description, note.tag); //it add the new note to the notes Array
     setNote({ title: "", description: "", tag: "Select tag" });
+    props.showAlert("Successfully Added","green","M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z")
 };
 
 const onchange = (e) => {
