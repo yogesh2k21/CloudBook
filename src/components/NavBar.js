@@ -29,8 +29,6 @@ return (
         className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
         <Link to="/" className={`px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4
           ${location.pathname==='/' ?"active:text-gray-900 bg-gray-200":""} `}>Home</Link>
-        <Link to="/contact" className={`px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4
-          ${location.pathname==='/contact' ?"active:text-gray-900 bg-gray-200":""} `}>Contact</Link>
         <Link to="/about" className={`px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4
           ${location.pathname==='/about' ?"active:text-gray-900 bg-gray-200":""} `}>About</Link>
       </nav>

@@ -26,6 +26,8 @@ const Noteitem = (props) => {
         return "https://www.buffalocitymission.org/wp-content/uploads/2012/09/groceries.png"
       case "Party":
         return "https://www.freeiconspng.com/uploads/party-icon-png-2.png"
+      default :
+        return ""
     }
   }
 
